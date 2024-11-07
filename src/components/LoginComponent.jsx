@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { Navigate, useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
-  const [showPassword, setShowPassword] = useState(false); // Menggunakan state untuk mengontrol visibilitas password
+  const [showPassword, setShowPassword] = useState(false);
+  const Navigate = useNavigate() // Menggunakan state untuk mengontrol visibilitas password
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle status visibilitas password
@@ -10,6 +12,7 @@ const LoginComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    Navigate("/")
     // Tambahkan logika login di sini
   }
 

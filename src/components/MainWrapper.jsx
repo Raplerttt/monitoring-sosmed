@@ -6,7 +6,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 // Navbar Components
 const NavbarComponents = ({ userName = "John Doe" }) => {
   return (
-    <header className="bg-gray-100 shadow-md border-b border-white mb-10 p-2">
+    <header className="p-2 mt-5">
       <div className="container mx-auto px-4">
         <nav className="flex justify-between items-center py-4">
           {/* Logo dan Nama User */}
@@ -41,7 +41,7 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
 // Footer Components
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-black py-10 mt-10">
+    <footer className="text-black py-10 mt-10">
       <div className="container mx-auto px-6 lg:px-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Logo dan Deskripsi */}
