@@ -6,15 +6,19 @@ import { Link, useNavigate } from 'react-router-dom';
 const NavbarComponents = ({ userName = "John Doe" }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate(); // hook navigate untuk navigasi
+  const navigate = useNavigate(); // Untuk navigasi setelah logout
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-  // Fungsi logout yang benar
+  // Handle logout
   const handleLogout = () => {
-    // Lakukan proses logout jika ada, misalnya menghapus token dari localStorage
-    navigate('/login'); // arahkan pengguna ke halaman login setelah logout
+    // Menghapus data session atau token pengguna jika ada
+    localStorage.removeItem('userToken');  // Contoh menggunakan localStorage, sesuaikan dengan implementasi
+    sessionStorage.removeItem('userToken'); // Jika menggunakan sessionStorage
+
+    // Redirect ke halaman login setelah logout
+    navigate('/login');
   };
 
   return (
@@ -73,7 +77,7 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
                   </li>
                   <li>
                     <button
-                      onClick={handleLogout} // panggil handleLogout saat logout
+                      onClick={handleLogout}  // Panggil handleLogout saat klik logout
                       className="block px-4 py-2 text-black hover:bg-gray-200 w-full text-left"
                     >
                       Logout
@@ -89,7 +93,7 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
       {/* Modal untuk mobile menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-20 flex justify-center items-start">
-          <div className="flex flex-auto bg-white w-full max-w p-10 items-center space-y-4 animate-slideDown">
+          <div className="flex flex-auto bg-white w-full max-w p-10 flex flex-col items-center space-y-4 animate-slideDown">
             <button
               className="self-end text-black text-2xl"
               onClick={toggleMobileMenu}
@@ -105,9 +109,6 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
             {/* Nama User */}
             <span className="text-black font-semibold">{userName}</span>
 
-            {/* Edit Profil */}
-
-
             {/* Menu Mobile */}
             <button className="bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all w-full text-center">
               Create New Order
@@ -118,10 +119,10 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
             </button>
 
             <button
-              className="justify-end right-14 bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all"
-              onClick={handleLogout} // panggil handleLogout saat logout
+            className="justify-end right-14 bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all"
+            onClick={handleLogout} // Panggil handleLogout saat klik logout
             >
-              Logout
+             Logout
             </button>
 
             {/* Ikon Notifikasi di kiri atas */}
