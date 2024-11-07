@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const Navigate = useNavigate() // Menggunakan state untuk mengontrol visibilitas password
+  const Navigate = useNavigate(); // Menggunakan state untuk mengontrol visibilitas password
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle status visibilitas password
@@ -12,19 +12,23 @@ const LoginComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Navigate("/")
+    Navigate("/");
     // Tambahkan logika login di sini
-  }
+  };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       {/* Left Side - Image */}
-      <div className="w-1/2 hidden md:block">
-        <img src="./assets/order-7.png" alt="Logo" className="object-cover h-full w-full" />
+      <div className="w-full md:w-1/2 mb-8 md:mb-0">
+        <img
+          src="./assets/order-7.png"
+          alt="Logo"
+          className="object-cover w-1/3 sm:w-2/4 md:w-full lg:w-full mx-auto"  // Mengatur lebar gambar
+        />
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+      <div className="w-full md:w-1/2 max-w-md bg-white shadow-lg rounded-lg p-8">
         <div className="text-center text-3xl text-black mb-6">
           <p>Login</p>
         </div>
@@ -64,7 +68,7 @@ const LoginComponent = () => {
           </div>
 
           <div className="flex items-center justify-between">
-          <button
+            <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
@@ -77,16 +81,7 @@ const LoginComponent = () => {
               Lupa Password?
             </a>
           </div>
-          {/* <div className="mt-4 text-sm mb-2">
-            <label className="inline-flex items-center text-gray-700">
-              <input 
-                type="checkbox" 
-                checked={acceptedTerms}
-                onChange={() => setAcceptedTerms(!acceptedTerms)}
-              />
-              <span className="ml-2">Saya setuju dengan <a href="#" className="text-blue-500">syarat dan ketentuan</a></span>
-            </label>
-          </div> */}
+
           <div className="mt-4 text-sm">
             <label className="inline-flex items-center text-gray-700">
               <span className="ml-2">Belum punya akun? <a href="/register" className="text-blue-500">Daftar</a></span>

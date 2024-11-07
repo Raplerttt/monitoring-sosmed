@@ -2,7 +2,7 @@ import React from 'react';
 
 const MyOrder = () => {
   return (
-    <div className="relative shadow-lg rounded-2xl bg-white/10 p-6 text-black">
+    <div className="relative shadow-lg rounded-2xl bg-red-400/70 p-6 text-black">
       <div className="flex items-center space-x-4">
         <button
           type="button"
@@ -19,15 +19,15 @@ const MyOrder = () => {
       </div>
       <div className="flex justify-start mt-6 gap-10" id="stack-order-summary">
         <div className="text-center">
-          <p className="text-lg font-semibold text-white order-ongoing">0</p>
+          <p className="text-lg font-semibold text-black order-ongoing">0</p>
           <small className="text-black opacity-50">Ongoing</small>
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold text-white order-completed">0</p>
+          <p className="text-lg font-semibold text-black order-completed">0</p>
           <small className="text-black opacity-50">Completed</small>
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold text-white order-canceled">0</p>
+          <p className="text-lg font-semibold text-black order-canceled">0</p>
           <small className="text-black opacity-50">Canceled</small>
         </div>
       </div>

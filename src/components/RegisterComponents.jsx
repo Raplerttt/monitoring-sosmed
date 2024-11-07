@@ -34,10 +34,10 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       {/* Left Side - Image */}
-      <div className="w-1/2 hidden md:block">
-        <img src="./assets/order-7.png" alt="Logo" className="object-cover h-full w-full" />
+      <div className="w-full md:w-1/2 mb-8 md:mb-0">
+        <img src="./assets/order-7.png" alt="Logo" className="object-cover w-1/3 sm:w-2/4 md:w-full lg:w-full mx-auto" />
       </div>
 
       {/* Right Side - Register Form */}
@@ -146,7 +146,7 @@ const RegisterComponent = () => {
           </div> */}
           <div className="mt-4 text-sm">
             <label className="inline-flex items-center text-gray-700">
-              <span>Sudah punya akun? <a href="/" className="text-blue-500">Masuk</a></span>
+              <span>Sudah punya akun? <a href="/login" className="text-blue-500">Masuk</a></span>
             </label>
           </div>
         </form>
