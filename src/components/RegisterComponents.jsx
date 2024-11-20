@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import axios from "../utils/axios";
 
 const RegisterComponent = () => {
   const [showPassword, setShowPassword] = useState(false); // Menggunakan state untuk mengontrol visibilitas password
   const [formData, setFormData] = useState({
     username: '',
+    name: '', // Tambahkan name untuk menyimpan nama lengkap
     email: '',
     password: '',
     confirmPassword: ''
   });
+  const [error, setError] = useState(''); // Menyimpan error message
+  const [successMessage, setSuccessMessage] = useState(''); // Menyimpan success message
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle status visibilitas password
@@ -22,17 +26,48 @@ const RegisterComponent = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Tambahkan logika pendaftaran di sini
+    setError('');
+    setSuccessMessage('');
+  
+    // Validasi password dan konfirmasi password
     if (formData.password !== formData.confirmPassword) {
-      alert("Password dan konfirmasi password tidak cocok");
-    } else {
-      // Lakukan pendaftaran
-      alert("Pendaftaran berhasil!");
+      setError("Password dan konfirmasi password tidak cocok");
+      return;
+    }
+  
+    try {
+      const response = await axios.post('/register', { ...formData });
+  
+      // Cek apakah statusnya 2xx (untuk sukses)
+      if (response.status >= 200 && response.status < 300) {
+        setSuccessMessage("Pendaftaran berhasil!");
+        setFormData({
+          username: '',
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+      } else {
+        // Jika tidak 2xx, tampilkan pesan kesalahan dari server
+        setError(response.data.error || "Terjadi kesalahan saat menghubungi server.");
+      }
+    } catch (error) {
+      console.error(error);  // Log kesalahan untuk debugging
+      
+      if (error.response) {
+        // Jika error datang dari server, tampilkan pesan error
+        setError(error.response.data.error || "Terjadi kesalahan saat menghubungi server.");
+      } else {
+        // Jika tidak ada respons atau masalah saat mengirim permintaan
+        setError("Terjadi kesalahan saat mengirim permintaan ke server.");
+      }
     }
   };
-
+  
+  
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       {/* Left Side - Image */}
@@ -45,6 +80,11 @@ const RegisterComponent = () => {
         <div className="text-center text-3xl text-black mb-6">
           <p>Daftar</p>
         </div>
+
+        {/* Display error or success message */}
+        {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
+        {successMessage && <p className="text-green-500 text-sm text-center mb-4">{successMessage}</p>}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
@@ -62,6 +102,24 @@ const RegisterComponent = () => {
             />
           </div>
 
+          {/* Nama Lengkap */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+              Nama Lengkap
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Masukkan Nama Lengkap Anda"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          {/* Email */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
               Email
@@ -78,6 +136,7 @@ const RegisterComponent = () => {
             />
           </div>
 
+          {/* Password */}
           <div className="mb-4 relative">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
               Password
@@ -102,6 +161,7 @@ const RegisterComponent = () => {
             </button>
           </div>
 
+          {/* Konfirmasi Password */}
           <div className="mb-4 relative">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
               Konfirmasi Password
@@ -126,6 +186,7 @@ const RegisterComponent = () => {
             </button>
           </div>
 
+          {/* Submit Button */}
           <div className="flex items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -134,16 +195,8 @@ const RegisterComponent = () => {
               Daftar
             </button>
           </div>
-          {/* <div className="mt-4 text-sm">
-            <label className="inline-flex items-center text-gray-700">
-              <input 
-                type="checkbox" 
-                checked={acceptedTerms}
-                onChange={() => setAcceptedTerms(!acceptedTerms)}
-              />
-              <span className="ml-2">Saya setuju dengan <a href="#" className="text-blue-500">syarat dan ketentuan</a></span>
-            </label>
-          </div> */}
+
+          {/* Link to Login */}
           <div className="mt-4 text-sm">
             <label className="inline-flex items-center text-gray-700">
               <span>Sudah punya akun? <a href="/login" className="text-blue-500">Masuk</a></span>

@@ -93,7 +93,7 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
       {/* Modal untuk mobile menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-20 flex justify-center items-start">
-          <div className="flex flex-auto bg-white w-full max-w p-10 flex flex-col items-center space-y-4 animate-slideDown">
+          <div className="flex flex-auto bg-white w-full max-w p-10 flex-col items-center space-y-4 animate-slideDown">
             <button
               className="self-end text-black text-2xl"
               onClick={toggleMobileMenu}
@@ -180,10 +180,10 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-8 pt-8 flex justify-between items-center">
           <p className="text-black">© 2024 Company Name. All rights reserved.</p>
           <div className="flex space-x-4">
-            <a href="#" className="text-black hover:text-blue-500"><FaFacebookF size={20} /></a>
-            <a href="#" className="text-black hover:text-blue-500"><FaTwitter size={20} /></a>
-            <a href="#" className="text-black hover:text-pink-500"><FaInstagram size={20} /></a>
-            <a href="#" className="text-black hover:text-blue-700"><FaLinkedinIn size={20} /></a>
+            <Link href="#" className="text-black hover:text-blue-500"><FaFacebookF size={20} /></Link>
+            <Link  href="#" className="text-black hover:text-blue-500"><FaTwitter size={20} /></Link>
+            <Link  href="#" className="text-black hover:text-pink-500"><FaInstagram size={20} /></Link>
+            <Link  href="#" className="text-black hover:text-blue-700"><FaLinkedinIn size={20} /></Link>
           </div>
         </div>
       </div>

@@ -1,19 +1,38 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "../utils/axios";
 
 const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const Navigate = useNavigate(); // Menggunakan state untuk mengontrol visibilitas password
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const Navigate = useNavigate(); 
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle status visibilitas password
+    setShowPassword(!showPassword); 
   };
 
-  const handleSubmit = (e) => {
+  // Fungsi untuk login
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    Navigate("/");
-    // Tambahkan logika login di sini
+    
+    try {
+      // Mengirim data login ke backend
+      const response = await axios.post('/login', {
+        username: username,
+        password: password
+      });
+
+      // Jika login berhasil, simpan token dan redirect
+      localStorage.setItem('token', response.data.token); // Menyimpan token JWT di localStorage
+      Navigate("/"); // Redirect ke halaman home setelah login berhasil
+    } catch (error) {
+      // Jika ada error, tampilkan pesan error
+      setError('Username atau Password salah.');
+    }
   };
 
   return (
@@ -31,6 +50,7 @@ const LoginComponent = () => {
       <div className="w-full md:w-1/2 max-w-md bg-white shadow-lg rounded-lg p-8">
         <div className="text-center text-3xl text-black mb-6">
           <p>Login</p>
+          {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -42,7 +62,10 @@ const LoginComponent = () => {
               id="username"
               type="text"
               placeholder="Masukkan Username Anda"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
+
             />
           </div>
 
@@ -55,6 +78,8 @@ const LoginComponent = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button 
@@ -74,12 +99,12 @@ const LoginComponent = () => {
             >
               Masuk
             </button>
-            <a 
+            <Link 
               href="#"
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
             >
               Lupa Password?
-            </a>
+            </Link>
           </div>
 
           <div className="mt-4 text-sm">
