@@ -11,7 +11,7 @@ const DashboardPage = () => {
         <MainWrapper>
         <div className="flex flex-col lg:flex-row gap-6 p-6">
       {/* Left Column */}
-      <div className="flex flex-col space-y-6 w-full lg:w-1/2">
+        <div className="flex flex-col space-y-6 w-full lg:w-1/2">
         <MyOrder />
         <RecentOrder />
       </div>

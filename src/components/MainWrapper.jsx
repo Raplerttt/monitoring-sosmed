@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBell, FaUser, FaChevronDown, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import CreateNewOrder from './CreateNewOrder';
+import EditAccount from './EditAccountComponents';
+import '../style/bgombak.css'
+
 
 // Navbar Components
-const NavbarComponents = ({ userName = "John Doe" }) => {
+const NavbarComponents = ({ userName }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPopupFormOpen, setIsPopupFormOpen] = useState(false);
+  const [isEditAccountOpen, setIsEditAccountOpen] = useState(false);
   const navigate = useNavigate(); // Untuk navigasi setelah logout
 
+  const togglePopupFormOpen = () => setIsPopupFormOpen(!isPopupFormOpen);
+  const toggleEditAccountOpen = () => setIsEditAccountOpen(!isEditAccountOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   // Handle logout
   const handleLogout = () => {
-    // Menghapus data session atau token pengguna jika ada
-    localStorage.removeItem('userToken');  // Contoh menggunakan localStorage, sesuaikan dengan implementasi
-    sessionStorage.removeItem('userToken'); // Jika menggunakan sessionStorage
+  // Hapus token dari localStorage
+  sessionStorage.removeItem('token');
 
+  document.cookie.split(';').forEach((cookie) => {
+    const cookieName = cookie.split('=')[0].trim();
+    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+  });
     // Redirect ke halaman login setelah logout
     navigate('/login');
   };
 
   return (
-    <header className="p-4 mt-5 animate-fadeIn bg-white shadow-md">
-      <div className="container mx-auto px-4 flex justify-between items-center">
+    <header className="p-6 mt-5 animate-fadeIn shadow-md">
+      <div className="container mx-auto px-14 flex justify-between items-center mb-3">
         {/* Logo dan Nama User */}
         <div className="flex items-center space-x-4">
           <Link to="/home" className="flex items-center">
@@ -42,7 +53,9 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
 
         {/* Button dan Ikon di desktop */}
         <div className="lg:flex items-center space-x-6 hidden">
-          <button className="bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all">
+          <button 
+          className="bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all"
+          onClick={togglePopupFormOpen}>
             Create New Order
           </button>
           <button className="relative text-red-400 hover:text-orange-200">
@@ -73,7 +86,12 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
               <div className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg w-48 z-10">
                 <ul className="py-2">
                   <li>
-                    <Link to="/edit-account" className="block px-4 py-2 text-black hover:bg-gray-200">Edit Akun</Link>
+                    <button 
+                    className="block px-4 py-2 text-black hover:bg-gray-200 w-full text-left" 
+                    onClick={toggleEditAccountOpen}
+                    >
+                      Edit Akun
+                    </button>
                   </li>
                   <li>
                     <button
@@ -85,6 +103,13 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
                   </li>
                 </ul>
               </div>
+            )}
+
+            {/* Modal untuk Edit Akun */}
+            {isEditAccountOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <EditAccount togglePopup={toggleEditAccountOpen} /> {/* Pass the toggle function */}
+            </div>
             )}
           </div>
         </div>
@@ -103,14 +128,19 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
 
             {/* Profil User */}
             <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-white">
-              <FaUser size={30} />
+            <button onClick={toggleEditAccountOpen}>
+            <FaUser size={30} /> {/* Menampilkan ikon FaUser */}
+            </button>
             </div>
 
             {/* Nama User */}
             <span className="text-black font-semibold">{userName}</span>
 
             {/* Menu Mobile */}
-            <button className="bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all w-full text-center">
+            <button 
+            className="bg-red-400 text-black px-4 py-2 rounded-md hover:bg-orange-200 transition-all w-full text-center"
+            onClick={togglePopupFormOpen}
+            >
               Create New Order
             </button>
 
@@ -132,8 +162,14 @@ const NavbarComponents = ({ userName = "John Doe" }) => {
                 3
               </span>
             </button>
-
           </div>
+        </div>
+      )}
+
+      {/* Create New Order Modal */}
+      {isPopupFormOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <CreateNewOrder togglePopup={togglePopupFormOpen} /> {/* Pass the toggle function */}
         </div>
       )}
     </header>
@@ -192,11 +228,23 @@ const Footer = () => {
 };
 
 // Main Wrapper
+
+
 const MainWrapper = ({ children }) => {
+  const [userName, setUserName] = useState('');
+
+    // Mengambil nama admin dari sessionStorage
+    useEffect(() => {
+      const name = sessionStorage.getItem('username'); // Pastikan nama admin disimpan di sessionStorage saat login
+      if (name) {
+        setUserName(name);
+      }
+    }, []);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-ombak">
       {/* Navbar */}
-      <NavbarComponents userName="John Doe" />
+      <NavbarComponents userName={userName} />
       
       {/* Main Content */}
       <main className="flex-grow">
