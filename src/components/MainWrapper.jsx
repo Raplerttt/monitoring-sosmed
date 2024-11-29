@@ -3,6 +3,7 @@ import { FaBell, FaUser, FaChevronDown, FaFacebookF, FaTwitter, FaInstagram, FaL
 import { Link, useNavigate } from 'react-router-dom';
 import CreateNewOrder from './CreateNewOrder';
 import EditAccount from './EditAccountComponents';
+import NotificationSlidder from './NotificationSlidder';
 import '../style/bgombak.css'
 
 
@@ -12,8 +13,10 @@ const NavbarComponents = ({ userName }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPopupFormOpen, setIsPopupFormOpen] = useState(false);
   const [isEditAccountOpen, setIsEditAccountOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const navigate = useNavigate(); // Untuk navigasi setelah logout
 
+  const toggleSlidderNotification = () => setIsNotificationOpen(!isNotificationOpen);
   const togglePopupFormOpen = () => setIsPopupFormOpen(!isPopupFormOpen);
   const toggleEditAccountOpen = () => setIsEditAccountOpen(!isEditAccountOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -33,7 +36,11 @@ const NavbarComponents = ({ userName }) => {
   };
 
   return (
-    <header className="p-6 mt-5 animate-fadeIn shadow-md">
+    <header
+    className={`p-6 mt-5 animate-fadeIn shadow-md transition-all duration-500 ${
+      isNotificationOpen ? 'mr-80' : ''
+    }`}
+      >
       <div className="container mx-auto px-14 flex justify-between items-center mb-3">
         {/* Logo dan Nama User */}
         <div className="flex items-center space-x-4">
@@ -58,12 +65,18 @@ const NavbarComponents = ({ userName }) => {
           onClick={togglePopupFormOpen}>
             Create New Order
           </button>
-          <button className="relative text-red-400 hover:text-orange-200">
+          <button className="relative text-red-400 hover:text-orange-200" onClick={toggleSlidderNotification}>
             <FaBell size={20} />
             <span className="absolute -top-1 -right-1 bg-black text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
               3
             </span>
           </button>
+
+          {isNotificationOpen && (
+            <NotificationSlidder 
+            toggleSlider={toggleSlidderNotification}
+            isOpen={isNotificationOpen} />
+          )}
 
           {/* Icon User with Dropdown */}
           <div className="relative">

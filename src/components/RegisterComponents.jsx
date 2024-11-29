@@ -38,7 +38,7 @@ const RegisterComponent = () => {
     }
   
     try {
-      const response = await axios.post('/register', { ...formData });
+      const response = await axios.post('user/register', { ...formData });
   
       // Cek apakah statusnya 2xx (untuk sukses)
       if (response.status >= 200 && response.status < 300) {
