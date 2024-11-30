@@ -3,7 +3,7 @@ import MainWrapper from '../components/MainWrapper'
 import MyOrder from '../components/MyOrderComponents'
 import RecentOrder from '../components/RecentOrder'
 import Services from '../components/ServicesComponents'
-import CalendarCard from '../components/CalendarCard'
+import CalendarCard from '../components/CalendarCardComponents'
 
 const DashboardPage = () => {
   return (

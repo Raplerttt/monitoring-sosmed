@@ -149,8 +149,8 @@ const CreateNewOrder = ({ togglePopup }) => {
                 required
               >
                 <option value="" disabled>Select a service</option>
-                <option value="service1">Youtube</option>
-                <option value="service2">Instagram</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Youtube">Youtube</option>
               </select>
             </div>
 
